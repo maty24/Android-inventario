@@ -1,5 +1,6 @@
 package com.example.bodegas.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -8,14 +9,18 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.bodegas.data.models.Equipo
 import com.example.bodegas.data.repository.DataRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -37,6 +42,7 @@ fun FormularioEquipo(
     var Dominio by remember { mutableStateOf("") }
 
     var showDialog by remember { mutableStateOf(false) }
+    var showSnackbar by remember { mutableStateOf(false) }
 
     val repository = remember { DataRepository() } // Crear el repositorio
     val scope = rememberCoroutineScope() // Crear un CoroutineScope
@@ -148,15 +154,22 @@ fun FormularioEquipo(
                         try {
                             val response = repository.crearEquipo(equipo)
                             if (response.isSuccessful) { // <-- Ahora puedes usar isSuccessful
+                                showSnackbar = true // Mostrar el Snackbar
+                                delay(2000) // Esperar 2 segundos
+                                showSnackbar = false // Ocultar el Snackbar
                                 // La petición fue exitosa
                                 navController.navigate("home")
                             } else {
-                                // Manejar el error de la petición (mostrar mensaje al usuario)
-                                // Puedes obtener el código de error con response.code()
-                                // Y el mensaje de error con response.errorBody()?.string()
+                                Log.e(
+                                    "API_ERROR",
+                                    "Error code: ${response.code()}, Error body: ${
+                                        response.errorBody()?.string()
+                                    }"
+                                )
                             }
                         } catch (e: Exception) {
                             // Manejar la excepción (por ejemplo, problemas de red)
+                            Log.e("API_EXCEPTION", "Exception: ", e)
                         }
                     }
                 } else {
@@ -166,6 +179,26 @@ fun FormularioEquipo(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Crear Equipo")
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        if (showSnackbar) {
+            Snackbar(
+                action = {
+                    TextButton(onClick = { showSnackbar = false }) {
+                        Text("OK")
+                    }
+                }
+            ) {
+                Text("Equipo creado con éxito")
+            }
+        }
+        Button(
+            onClick = {
+                navController.navigate("home")
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Atras")
         }
         if (showDialog) {
             AlertDialog(
@@ -179,15 +212,18 @@ fun FormularioEquipo(
                 }
             )
         }
-
-        Spacer(modifier = Modifier.height(4.dp))
-        Button(
-            onClick = {
-                navController.navigate("home")
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Atras")
+        if (showSnackbar) {
+            Snackbar(
+                action = {
+                    TextButton(onClick = { showSnackbar = false }) {
+                        Text("OK")
+                    }
+                }
+            ) {
+                Text("Equipo creado con éxito")
+            }
         }
     }
+
+
 }
