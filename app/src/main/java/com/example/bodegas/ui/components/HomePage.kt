@@ -30,34 +30,25 @@ fun HomePage(navController: NavHostController) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Equipo")
+            Text(text = "Registro equipo")
         }
         Spacer(modifier = Modifier.height(4.dp))
         Button(
             onClick = {
-                navController.navigate("hardware")
+                navController.navigate("Registro impresora")
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Hardware")
+            Text(text = "Registro impresora")
         }
         Spacer(modifier = Modifier.height(4.dp))
         Button(
             onClick = {
-                navController.navigate("software")
+                navController.navigate("buscar")
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Software")
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        Button(
-            onClick = {
-                navController.navigate("impresora")
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Impresora")
+            Text(text = "Buscar equipo")
         }
         Spacer(modifier = Modifier.height(4.dp))
     }

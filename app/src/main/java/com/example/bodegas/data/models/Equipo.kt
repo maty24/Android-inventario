@@ -1,7 +1,6 @@
 package com.example.bodegas.data.models
 
 
-
 data class Equipo(
     val MascaraRed: String,
     val PuertaEnlace: String,
@@ -14,4 +13,10 @@ data class Equipo(
     val NombreEquipo: String,
     val NombreUsuarioPC: String,
     val Dominio: String
+)
+
+data class EquipoResponse(
+    val IDEquipo: Int,
+    val FaltaEnComponenteHardware: Boolean,
+    val FaltaEnSoftwareInstalado: Boolean
 )

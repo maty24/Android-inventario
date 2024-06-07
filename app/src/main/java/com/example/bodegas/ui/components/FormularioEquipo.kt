@@ -13,7 +13,6 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -26,8 +25,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun FormularioEquipo(
-    navController: NavController,
-    onCrearEquipo: (Equipo) -> Unit
+    navController: NavController
 ) {
     var MascaraRed by remember { mutableStateOf("") }
     var PuertaEnlace by remember { mutableStateOf("") }
@@ -63,7 +61,7 @@ fun FormularioEquipo(
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
             value = MascaraRed,
-            onValueChange = { MascaraRed = it },
+            onValueChange = { MascaraRed = it.take(15) },
             label = { Text("Máscara de Red") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -135,7 +133,8 @@ fun FormularioEquipo(
         OutlinedTextField(
             value = Dominio,
             onValueChange = { Dominio = it },
-            label = { Text("Dominio") }, modifier = Modifier.fillMaxWidth()
+            label = { Text("Dominio") },
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(
@@ -211,17 +210,6 @@ fun FormularioEquipo(
                     }
                 }
             )
-        }
-        if (showSnackbar) {
-            Snackbar(
-                action = {
-                    TextButton(onClick = { showSnackbar = false }) {
-                        Text("OK")
-                    }
-                }
-            ) {
-                Text("Equipo creado con éxito")
-            }
         }
     }
 
