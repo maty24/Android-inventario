@@ -1,0 +1,193 @@
+package com.example.bodegas.ui.components
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.bodegas.data.models.Equipo
+import com.example.bodegas.data.repository.DataRepository
+import kotlinx.coroutines.launch
+
+
+@Composable
+fun FormularioEquipo(
+    navController: NavController,
+    onCrearEquipo: (Equipo) -> Unit
+) {
+    var MascaraRed by remember { mutableStateOf("") }
+    var PuertaEnlace by remember { mutableStateOf("") }
+    var DnsPrimario by remember { mutableStateOf("") }
+    var DnsSecundario by remember { mutableStateOf("") }
+    var MacAddress by remember { mutableStateOf("") }
+    var MiniSwitch by remember { mutableStateOf("") }
+    var IpSwitch by remember { mutableStateOf("") }
+    var PuertoSwitch by remember { mutableStateOf("") }
+    var NombreEquipo by remember { mutableStateOf("") }
+    var NombreUsuarioPC by remember { mutableStateOf("") }
+    var Dominio by remember { mutableStateOf("") }
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    val repository = remember { DataRepository() } // Crear el repositorio
+    val scope = rememberCoroutineScope() // Crear un CoroutineScope
+
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = "Registro de equipos",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = MascaraRed,
+            onValueChange = { MascaraRed = it },
+            label = { Text("Máscara de Red") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = PuertaEnlace,
+            onValueChange = { PuertaEnlace = it },
+            label = { Text("Puerta de Enlace") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = DnsPrimario,
+            onValueChange = { DnsPrimario = it },
+            label = { Text("DNS Primario") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = DnsSecundario,
+            onValueChange = { DnsSecundario = it },
+            label = { Text("DNS Secundario") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = MacAddress,
+            onValueChange = { MacAddress = it },
+            label = { Text("MAC Address") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = MiniSwitch,
+            onValueChange = { MiniSwitch = it },
+            label = { Text("Mini Switch") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = IpSwitch,
+            onValueChange = { IpSwitch = it },
+            label = { Text("IP Switch") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = PuertoSwitch,
+            onValueChange = { PuertoSwitch = it },
+            label = { Text("Puerto Switch") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = NombreEquipo,
+            onValueChange = { NombreEquipo = it },
+            label = { Text("Nombre del Equipo") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = NombreUsuarioPC,
+            onValueChange = { NombreUsuarioPC = it },
+            label = { Text("Nombre de Usuario de PC") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        OutlinedTextField(
+            value = Dominio,
+            onValueChange = { Dominio = it },
+            label = { Text("Dominio") }, modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            onClick = {
+                // Validación
+                if (NombreEquipo.isNotBlank()) {
+
+                    val equipo = Equipo(
+                        MascaraRed, PuertaEnlace, DnsPrimario, DnsSecundario,
+                        MacAddress, MiniSwitch, IpSwitch, PuertoSwitch.toIntOrNull() ?: 0,
+                        NombreEquipo, NombreUsuarioPC, Dominio
+                    )
+
+                    // Lanzar la corrutina para enviar los datos
+                    scope.launch {
+                        try {
+                            val response = repository.crearEquipo(equipo)
+                            if (response.isSuccessful) { // <-- Ahora puedes usar isSuccessful
+                                // La petición fue exitosa
+                                navController.navigate("home")
+                            } else {
+                                // Manejar el error de la petición (mostrar mensaje al usuario)
+                                // Puedes obtener el código de error con response.code()
+                                // Y el mensaje de error con response.errorBody()?.string()
+                            }
+                        } catch (e: Exception) {
+                            // Manejar la excepción (por ejemplo, problemas de red)
+                        }
+                    }
+                } else {
+                    showDialog = true // Mostrar el diálogo si el nombre está vacío
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Crear Equipo")
+        }
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = false }, // Cerrar el diálogo al presionar fuera
+                title = { Text("Error") },
+                text = { Text("Por favor, ingresa el nombre del equipo.") },
+                confirmButton = {
+                    Button(onClick = { showDialog = false }) {
+                        Text("Aceptar")
+                    }
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+        Button(
+            onClick = {
+                navController.navigate("home")
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Atras")
+        }
+    }
+}
