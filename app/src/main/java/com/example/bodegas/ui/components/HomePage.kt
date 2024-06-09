@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
@@ -22,34 +24,34 @@ fun HomePage(navController: NavHostController) {
             .fillMaxWidth()
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Button(
-            onClick = {
-                navController.navigate("equipo")
-            },
-            modifier = Modifier.fillMaxWidth()
+            onClick = { navController.navigate("equipo") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            elevation = ButtonDefaults.elevatedButtonElevation()
         ) {
-            Text(text = "Registro equipo")
+            Text(text = "Registro equipo", color = Color.White)
         }
-        Spacer(modifier = Modifier.height(4.dp))
         Button(
-            onClick = {
-                navController.navigate("Registro impresora")
-            },
-            modifier = Modifier.fillMaxWidth()
+            onClick = { navController.navigate("impresora") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            elevation = ButtonDefaults.elevatedButtonElevation()
         ) {
-            Text(text = "Registro impresora")
+            Text(text = "Registro impresora", color = Color.White)
         }
-        Spacer(modifier = Modifier.height(4.dp))
         Button(
-            onClick = {
-                navController.navigate("buscar")
-            },
-            modifier = Modifier.fillMaxWidth()
+            onClick = { navController.navigate("buscar") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            elevation = ButtonDefaults.elevatedButtonElevation()
         ) {
-            Text(text = "Buscar equipo")
+            Text(text = "Buscar equipo", color = Color.White)
         }
-        Spacer(modifier = Modifier.height(4.dp))
     }
 }

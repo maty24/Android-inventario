@@ -9,7 +9,7 @@ data class Hardware(
     val MarcaPlaca: String,
     val ModeloPlaca: String,
     val Procesador: String,
-    val Ram: Long,
+    val Ram: String,
     val TarjetaVideo: String,
     val Almacenamiento: String,
     val MarcaImpresora: String,

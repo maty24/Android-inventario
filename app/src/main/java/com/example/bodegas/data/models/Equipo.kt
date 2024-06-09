@@ -9,10 +9,14 @@ data class Equipo(
     val MacAddress: String,
     val MiniSwitch: String,
     val IpSwitch: String,
-    val PuertoSwitch: Int,
+    val PuertoSwitch: String,
     val NombreEquipo: String,
     val NombreUsuarioPC: String,
     val Dominio: String
+)
+
+data class EquipoResponseCreate(
+    val IDEquipo: Int
 )
 
 data class EquipoResponse(

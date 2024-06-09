@@ -25,7 +25,7 @@ fun AppNavigation() {
             val equipoId = backStackEntry.arguments?.getString("equipoId")
             FormularioHardware(navController, equipoId)
         }
-        composable("software") { backStackEntry ->
+        composable("software/{equipoId}") { backStackEntry ->
             val equipoId = backStackEntry.arguments?.getString("equipoId")
             FormularioSoftware(navController, equipoId)
         }

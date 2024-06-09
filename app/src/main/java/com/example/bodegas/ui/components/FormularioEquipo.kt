@@ -112,7 +112,6 @@ fun FormularioEquipo(
             value = PuertoSwitch,
             onValueChange = { PuertoSwitch = it },
             label = { Text("Puerto Switch") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(4.dp))
@@ -144,7 +143,7 @@ fun FormularioEquipo(
 
                     val equipo = Equipo(
                         MascaraRed, PuertaEnlace, DnsPrimario, DnsSecundario,
-                        MacAddress, MiniSwitch, IpSwitch, PuertoSwitch.toIntOrNull() ?: 0,
+                        MacAddress, MiniSwitch, IpSwitch, PuertoSwitch,
                         NombreEquipo, NombreUsuarioPC, Dominio
                     )
 
@@ -156,8 +155,9 @@ fun FormularioEquipo(
                                 showSnackbar = true // Mostrar el Snackbar
                                 delay(2000) // Esperar 2 segundos
                                 showSnackbar = false // Ocultar el Snackbar
+                                val equipoId = response.body()?.IDEquipo.toString()
                                 // La petición fue exitosa
-                                navController.navigate("home")
+                                navController.navigate("hardware/$equipoId")
                             } else {
                                 Log.e(
                                     "API_ERROR",

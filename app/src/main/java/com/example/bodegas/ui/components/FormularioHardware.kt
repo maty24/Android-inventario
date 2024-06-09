@@ -42,7 +42,7 @@ fun FormularioHardware(
     var MarcaPlaca by remember { mutableStateOf("") }
     var ModeloPlaca by remember { mutableStateOf("") }
     var Procesador by remember { mutableStateOf("") }
-    var Ram by remember { mutableIntStateOf(0) }
+    var Ram by remember { mutableStateOf("") }
     var TarjetaVideo by remember { mutableStateOf("") }
     var Almacenamiento by remember { mutableStateOf("") }
     var MarcaImpresora by remember { mutableStateOf("") }
@@ -120,10 +120,9 @@ fun FormularioHardware(
         Spacer(modifier = Modifier.padding(8.dp))
         OutlinedTextField(
             value = Ram.toString(),
-            onValueChange = { Ram = it.toIntOrNull() ?: Ram },
+            onValueChange = { Ram = it },
             label = { Text("RAM") },
             modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         Spacer(modifier = Modifier.padding(8.dp))
         OutlinedTextField(
@@ -211,7 +210,7 @@ fun FormularioHardware(
                         MarcaPlaca,
                         ModeloPlaca,
                         Procesador,
-                        Ram.toLong(),
+                        Ram,
                         TarjetaVideo,
                         Almacenamiento,
                         MarcaImpresora,
@@ -233,7 +232,7 @@ fun FormularioHardware(
                                 delay(2000)
                                 showSnackbar = false
                                 //petición exitosa
-                                navController.navigate("home")
+                                navController.navigate("software/$equipoIdState")
                             } else {
                                 Log.e("Error", response.errorBody().toString())
                             }
@@ -260,14 +259,6 @@ fun FormularioHardware(
             ) {
                 Text("Equipo creado con éxito")
             }
-        }
-        Button(
-            onClick = {
-                navController.navigate("home")
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Atras")
         }
         if (showDialog) {
             AlertDialog(
