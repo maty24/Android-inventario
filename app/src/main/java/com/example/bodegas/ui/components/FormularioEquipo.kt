@@ -139,7 +139,7 @@ fun FormularioEquipo(
         Button(
             onClick = {
                 // Validación
-                if (NombreEquipo.isNotBlank()) {
+                if (MacAddress.matches("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$".toRegex())) {
 
                     val equipo = Equipo(
                         MascaraRed, PuertaEnlace, DnsPrimario, DnsSecundario,
@@ -203,7 +203,7 @@ fun FormularioEquipo(
             AlertDialog(
                 onDismissRequest = { showDialog = false }, // Cerrar el diálogo al presionar fuera
                 title = { Text("Error") },
-                text = { Text("Por favor, ingresa el nombre del equipo.") },
+                text = { Text("Ingrese un MAC Address válido") },
                 confirmButton = {
                     Button(onClick = { showDialog = false }) {
                         Text("Aceptar")
@@ -212,6 +212,5 @@ fun FormularioEquipo(
             )
         }
     }
-
 
 }
