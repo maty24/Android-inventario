@@ -55,6 +55,8 @@ fun FormularioHardware(
     var LectorCodigoBarras by remember { mutableStateOf(false) }
     var NumeroInventarioCodigoBarras by remember { mutableStateOf("") }
 
+    var Responsable by remember { mutableStateOf("1") }
+
     var showDialog by remember { mutableStateOf(false) }
     var showSnackbar by remember { mutableStateOf(false) }
 
@@ -221,7 +223,8 @@ fun FormularioHardware(
                         SerieScanner,
                         FirmaElectronica,
                         LectorCodigoBarras,
-                        NumeroInventarioCodigoBarras
+                        NumeroInventarioCodigoBarras,
+                        Responsable
                     )
                     // Llamar a la función de crear hardware
                     scope.launch {

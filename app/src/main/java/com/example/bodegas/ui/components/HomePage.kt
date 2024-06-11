@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.bodegas.utils.Global
 
 @Composable
 fun HomePage(navController: NavHostController) {
@@ -52,6 +53,19 @@ fun HomePage(navController: NavHostController) {
             elevation = ButtonDefaults.elevatedButtonElevation()
         ) {
             Text(text = "Buscar equipo", color = Color.White)
+        }
+
+        Button(
+            onClick = {
+                Global.token = null // Borra el token global
+                navController.navigate("login")
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            elevation = ButtonDefaults.elevatedButtonElevation()
+        ) {
+            Text(text = "Cerrar sesion", color = Color.White)
         }
     }
 }

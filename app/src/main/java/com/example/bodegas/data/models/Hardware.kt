@@ -20,5 +20,6 @@ data class Hardware(
     val SerieScanner: String,
     val FirmaElectronica: Boolean,
     val LectorCodigoBarras: Boolean,
-    val NumeroInventarioCodigoBarras: String
+    val NumeroInventarioCodigoBarras: String,
+    val Responsable: String
 )

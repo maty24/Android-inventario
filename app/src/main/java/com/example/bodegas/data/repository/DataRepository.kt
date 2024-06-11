@@ -1,11 +1,14 @@
 package com.example.bodegas.data.repository
 
+import com.example.bodegas.data.api.ApiLoginModule
 import com.example.bodegas.data.api.ApiModule
 import com.example.bodegas.data.models.Equipo
 import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
 import com.example.bodegas.data.models.Hardware
 import com.example.bodegas.data.models.Impresora
+import com.example.bodegas.data.models.Login
+import com.example.bodegas.data.models.LoginResponse
 import com.example.bodegas.data.models.Software
 import retrofit2.Response
 
@@ -30,4 +33,14 @@ class DataRepository {
         return ApiModule.apiService.getEquipoPorMac(macAddress)
     }
 
+}
+
+class LoginRepository {
+    suspend fun login(login: Login): Response<LoginResponse> {
+        return ApiLoginModule.apiLoginService.login(login)
+    }
+
+    suspend fun actualizarContrasena(login: Login): Response<Void> {
+        return ApiLoginModule.apiLoginService.actualizarContrasena(login)
+    }
 }
