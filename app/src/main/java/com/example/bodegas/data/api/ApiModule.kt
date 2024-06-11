@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiModule {
-    private const val BASE_URL = "http://192.168.100.104:8082/"
+    private const val BASE_URL = "http://10.6.22.9:8082/"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -17,9 +17,7 @@ object ApiModule {
                 val request = chain.request().newBuilder()
                 val sharedPrefManager = SharedPrefManager(token = Global.token ?: "")
                 val token = sharedPrefManager.getToken()
-                if (token != null) {
-                    request.addHeader("Authorization", "Bearer $token")
-                }
+                request.addHeader("Authorization", "Bearer $token")
                 chain.proceed(request.build())
             }.build()
         )
@@ -29,7 +27,7 @@ object ApiModule {
 }
 
 object ApiLoginModule {
-    private const val BASE_URL = "http://192.168.100.104:8083/"
+    private const val BASE_URL = "http://10.6.22.9:8083/"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)

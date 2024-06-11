@@ -11,6 +11,7 @@ import com.example.bodegas.ui.components.FormularioEquipo
 import com.example.bodegas.ui.components.FormularioHardware
 import com.example.bodegas.ui.components.FormularioImpresora
 import com.example.bodegas.ui.components.FormularioSoftware
+import com.example.bodegas.ui.components.FormularioUsuario
 import com.example.bodegas.ui.components.HomePage
 import com.example.bodegas.ui.components.LoginPage
 
@@ -24,7 +25,9 @@ fun AppNavigation() {
         composable("login") { LoginPage(navController) }
         composable("actualizarContrasena/{rut}") { backStackEntry ->
             val rut = backStackEntry.arguments?.getString("rut")
-            ActualizarContrasena(navController, rut)
+            if (rut != null) {
+                ActualizarContrasena(navController, rut)
+            }
         }
         composable("home") { HomePage(navController) }
         composable("equipo") { FormularioEquipo(navController) }
@@ -38,6 +41,9 @@ fun AppNavigation() {
             FormularioSoftware(navController, equipoId)
         }
         composable("impresora") { FormularioImpresora(navController) }
+        composable("usuario") { FormularioUsuario(navController) }
         composable("buscar") { BuscarEquipo(navController, repository) }
     }
 }
+
+

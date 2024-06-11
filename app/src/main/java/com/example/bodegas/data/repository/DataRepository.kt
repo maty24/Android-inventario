@@ -2,6 +2,7 @@ package com.example.bodegas.data.repository
 
 import com.example.bodegas.data.api.ApiLoginModule
 import com.example.bodegas.data.api.ApiModule
+import com.example.bodegas.data.models.ActializarContrasena
 import com.example.bodegas.data.models.Equipo
 import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
@@ -10,6 +11,7 @@ import com.example.bodegas.data.models.Impresora
 import com.example.bodegas.data.models.Login
 import com.example.bodegas.data.models.LoginResponse
 import com.example.bodegas.data.models.Software
+import com.example.bodegas.data.models.Usuario
 import retrofit2.Response
 
 class DataRepository {
@@ -33,6 +35,10 @@ class DataRepository {
         return ApiModule.apiService.getEquipoPorMac(macAddress)
     }
 
+    suspend fun crearUsuario(usuario: Usuario): Response<Void> {
+        return ApiModule.apiService.crearUsuario(usuario)
+    }
+
 }
 
 class LoginRepository {
@@ -40,7 +46,7 @@ class LoginRepository {
         return ApiLoginModule.apiLoginService.login(login)
     }
 
-    suspend fun actualizarContrasena(login: Login): Response<Void> {
-        return ApiLoginModule.apiLoginService.actualizarContrasena(login)
+    suspend fun actualizarContrasena(actualizarContrasena: ActializarContrasena): Response<Void> {
+        return ApiLoginModule.apiLoginService.actualizarContrasena(actualizarContrasena)
     }
 }

@@ -61,7 +61,7 @@ fun LoginPage(navController: NavHostController) {
                     val response = repository.login(login)
                     if (response.code() == 428) {
                         // Si el código de estado es 428, navega a "actualizarContrasena/username"
-                        navController.navigate("actualizarContrasena/username")
+                        navController.navigate("actualizarContrasena/$username")
                     }
                     // Llama a la función login
                     if (response.isSuccessful) {

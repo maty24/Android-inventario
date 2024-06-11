@@ -1,5 +1,6 @@
 package com.example.bodegas.data.api
 
+import com.example.bodegas.data.models.ActializarContrasena
 import com.example.bodegas.data.models.Equipo
 import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
@@ -8,6 +9,7 @@ import com.example.bodegas.data.models.Impresora
 import com.example.bodegas.data.models.Login
 import com.example.bodegas.data.models.LoginResponse
 import com.example.bodegas.data.models.Software
+import com.example.bodegas.data.models.Usuario
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -27,6 +29,9 @@ interface ApiService {
     @POST("impresora/")
     suspend fun crearImpresora(@Body impresora: Impresora): Response<Void>
 
+    @POST("usuario/")
+    suspend fun crearUsuario(@Body usuario: Usuario): Response<Void>
+
     @GET("equipos/mac/{macAddress}")
     suspend fun getEquipoPorMac(@Path("macAddress") macAddress: String): Response<EquipoResponse>
 }
@@ -35,7 +40,7 @@ interface ApiLoginService {
     @POST("tecnicos/login")
     suspend fun login(@Body login: Login): Response<LoginResponse>
 
-    @POST("tecnicos/actualizar_contrasena/")
-    suspend fun actualizarContrasena(@Body login: Login): Response<Void>
+    @POST("tecnicos/actualizar_contrasena")
+    suspend fun actualizarContrasena(@Body actualizarContrasena: ActializarContrasena): Response<Void>
 
 }
