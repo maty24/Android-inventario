@@ -6,6 +6,7 @@ import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
 import com.example.bodegas.data.models.Hardware
 import com.example.bodegas.data.models.Impresora
+import com.example.bodegas.data.models.IpDisponibleResponse
 import com.example.bodegas.data.models.Login
 import com.example.bodegas.data.models.LoginResponse
 import com.example.bodegas.data.models.Software
@@ -42,5 +43,11 @@ interface ApiLoginService {
 
     @POST("tecnicos/actualizar_contrasena")
     suspend fun actualizarContrasena(@Body actualizarContrasena: ActializarContrasena): Response<Void>
+
+}
+
+interface ApiIpService {
+    @GET("ip_disponibles/ip/{ip}")
+    suspend fun verificarIp(@Path("ip") ip: String): Response<IpDisponibleResponse>
 
 }

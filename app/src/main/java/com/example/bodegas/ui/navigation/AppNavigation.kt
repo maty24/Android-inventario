@@ -5,8 +5,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bodegas.data.repository.DataRepository
+import com.example.bodegas.data.repository.IpRepository
 import com.example.bodegas.ui.components.ActualizarContrasena
 import com.example.bodegas.ui.components.BuscarEquipo
+import com.example.bodegas.ui.components.BuscarIpDisponible
 import com.example.bodegas.ui.components.FormularioEquipo
 import com.example.bodegas.ui.components.FormularioHardware
 import com.example.bodegas.ui.components.FormularioImpresora
@@ -20,6 +22,7 @@ import com.example.bodegas.ui.components.LoginPage
 fun AppNavigation() {
     val navController = rememberNavController()
     val repository = DataRepository()
+    val repositoryIp = IpRepository()
 
     NavHost(navController = navController, startDestination = "login") {
         composable("login") { LoginPage(navController) }
@@ -30,7 +33,10 @@ fun AppNavigation() {
             }
         }
         composable("home") { HomePage(navController) }
-        composable("equipo") { FormularioEquipo(navController) }
+        composable("equipo/{ip}") { backStackEntry ->
+            val ip = backStackEntry.arguments?.getString("ip")
+            FormularioEquipo(navController, ip)
+        }
 
         composable("hardware/{equipoId}") { backStackEntry ->
             val equipoId = backStackEntry.arguments?.getString("equipoId")
@@ -43,6 +49,7 @@ fun AppNavigation() {
         composable("impresora") { FormularioImpresora(navController) }
         composable("usuario") { FormularioUsuario(navController) }
         composable("buscar") { BuscarEquipo(navController, repository) }
+        composable("buscarip") { BuscarIpDisponible(navController, repositoryIp) }
     }
 }
 

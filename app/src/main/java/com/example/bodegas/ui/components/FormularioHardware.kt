@@ -36,6 +36,8 @@ fun FormularioHardware(
 ) {
     var equipoIdState by remember { mutableStateOf(equipoId ?: "") }
 
+
+
     var NumeroInventario by remember { mutableStateOf("") }
     var MarcaEquipo by remember { mutableStateOf("") }
     var ModeloEquipo by remember { mutableStateOf("") }

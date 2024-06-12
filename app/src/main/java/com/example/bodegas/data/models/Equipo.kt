@@ -2,6 +2,7 @@ package com.example.bodegas.data.models
 
 
 data class Equipo(
+    val IDIpDisponible: Int,
     val MascaraRed: String,
     val PuertaEnlace: String,
     val DnsPrimario: String,

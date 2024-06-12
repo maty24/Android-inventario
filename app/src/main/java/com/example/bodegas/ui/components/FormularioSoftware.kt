@@ -5,17 +5,23 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,10 +32,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bodegas.data.models.Software
+import com.example.bodegas.data.models.edicionOffice
+import com.example.bodegas.data.models.sistemasOperativos
+import com.example.bodegas.data.models.versionOffice
+import com.example.bodegas.data.models.versionesSistemasOperativos
 import com.example.bodegas.data.repository.DataRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormularioSoftware(
     navController: NavHostController,
@@ -37,10 +48,23 @@ fun FormularioSoftware(
 ) {
     var equipoIdState by remember { mutableStateOf(equipoId ?: "") }
 
-    var edicionSistemaOperativo by remember { mutableStateOf("") }
+    val optionsSistemaOperativo = sistemasOperativos
+    var edicionSistemaOperativo by remember { mutableStateOf(optionsSistemaOperativo[0]) }
+    var expandedSistemaOperativo by remember { mutableStateOf(false) }
+
+    val optionsVersionSistemaOperativo = versionesSistemasOperativos
     var versionSistemaOperativo by remember { mutableStateOf("") }
+    var expandedVersionSistemaOperativo by remember { mutableStateOf(false) }
+
+    val optionEdOffice = edicionOffice
     var edicionOffice by remember { mutableStateOf("") }
+    var expandedEdOffice by remember { mutableStateOf(false) }
+
+    val optionVersionOffice = versionOffice
     var versionOffice by remember { mutableStateOf("") }
+    var expandedVersionOffice by remember { mutableStateOf(false) }
+
+
     var edicionAntivirus by remember { mutableStateOf("") }
     var versionAntivirus by remember { mutableStateOf("") }
     var maquinaVirtual by remember { mutableStateOf("") }
@@ -71,33 +95,129 @@ fun FormularioSoftware(
             modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
         )
         Spacer(modifier = Modifier.padding(8.dp))
-        OutlinedTextField(
-            value = edicionSistemaOperativo,
-            onValueChange = { edicionSistemaOperativo = it },
-            label = { Text("Edición del sistema operativo") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        Text(text = "Sistema operativo")
+        ExposedDropdownMenuBox(
+            expanded = expandedSistemaOperativo,
+            onExpandedChange = { expandedSistemaOperativo = !expandedSistemaOperativo }
+        ) {
+            TextField(
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
+                value = edicionSistemaOperativo,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedSistemaOperativo) }
+            )
+            ExposedDropdownMenu(
+                expanded = expandedSistemaOperativo,
+                onDismissRequest = { expandedVersionSistemaOperativo = false }) {
+                optionsSistemaOperativo.forEachIndexed { index, text ->
+                    DropdownMenuItem(
+                        text = { Text(text = text) },
+                        onClick = {
+                            edicionSistemaOperativo = optionsSistemaOperativo[index]
+                            expandedSistemaOperativo = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        }
         Spacer(modifier = Modifier.padding(8.dp))
-        OutlinedTextField(
-            value = versionSistemaOperativo,
-            onValueChange = { versionSistemaOperativo = it },
-            label = { Text("Versión del sistema operativo") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        Text(text = "Versión del sistema operativo")
+        ExposedDropdownMenuBox(
+            expanded = expandedVersionSistemaOperativo,
+            onExpandedChange = { expandedVersionSistemaOperativo = !expandedVersionSistemaOperativo }
+        ) {
+            TextField(
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
+                value = versionSistemaOperativo,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedVersionSistemaOperativo) }
+            )
+            ExposedDropdownMenu(
+                expanded = expandedVersionSistemaOperativo,
+                onDismissRequest = { expandedVersionSistemaOperativo = false }) {
+                optionsVersionSistemaOperativo.forEachIndexed { index, text ->
+                    DropdownMenuItem(
+                        text = { Text(text = text) },
+                        onClick = {
+                            versionSistemaOperativo = optionsVersionSistemaOperativo[index]
+                            expandedVersionSistemaOperativo = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        }
         Spacer(modifier = Modifier.padding(8.dp))
-        OutlinedTextField(
-            value = edicionOffice,
-            onValueChange = { edicionOffice = it },
-            label = { Text("Edición de Office") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        Text(text = "Edición de Office")
+        ExposedDropdownMenuBox(
+            expanded = expandedEdOffice,
+            onExpandedChange = { expandedEdOffice = !expandedEdOffice }
+        ) {
+            TextField(
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
+                value = edicionOffice,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedEdOffice) }
+            )
+            ExposedDropdownMenu(
+                expanded = expandedEdOffice,
+                onDismissRequest = { expandedEdOffice = false }) {
+                optionEdOffice.forEachIndexed { index, text ->
+                    DropdownMenuItem(
+                        text = { Text(text = text) },
+                        onClick = {
+                            edicionOffice = optionEdOffice[index]
+                            expandedEdOffice = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        }
         Spacer(modifier = Modifier.padding(8.dp))
-        OutlinedTextField(
-            value = versionOffice,
-            onValueChange = { versionOffice = it },
-            label = { Text("Versión de Office") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        Text(text = "Versión de Office")
+        ExposedDropdownMenuBox(
+            expanded = expandedVersionOffice,
+            onExpandedChange = { expandedVersionOffice = !expandedVersionOffice }
+        ) {
+            TextField(
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
+                value = versionOffice,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedVersionOffice) }
+            )
+            ExposedDropdownMenu(
+                expanded = expandedVersionOffice,
+                onDismissRequest = { expandedVersionOffice = false }) {
+                optionVersionOffice.forEachIndexed { index, text ->
+                    DropdownMenuItem(
+                        text = { Text(text = text) },
+                        onClick = {
+                            versionOffice = optionVersionOffice[index]
+                            expandedVersionOffice = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        }
         Spacer(modifier = Modifier.padding(8.dp))
         OutlinedTextField(
             value = edicionAntivirus,
@@ -228,3 +348,4 @@ fun FormularioSoftware(
         )
     }
 }
+

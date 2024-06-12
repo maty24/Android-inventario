@@ -36,3 +36,14 @@ object ApiLoginModule {
 
     val apiLoginService: ApiLoginService = retrofit.create(ApiLoginService::class.java)
 }
+
+object ApiIpModule {
+    private const val BASE_URL = "http://10.6.22.9:8081/"
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    val apiIpService: ApiIpService = retrofit.create(ApiIpService::class.java)
+}

@@ -28,7 +28,7 @@ fun HomePage(navController: NavHostController) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Button(
-            onClick = { navController.navigate("equipo") },
+            onClick = { navController.navigate("buscarip") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp),

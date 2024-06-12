@@ -23,3 +23,5 @@ data class Hardware(
     val NumeroInventarioCodigoBarras: String,
     val Responsable: String
 )
+
+

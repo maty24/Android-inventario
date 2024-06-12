@@ -67,29 +67,33 @@ fun ActualizarContrasena(
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                coroutineScope.launch {
-                    val actulizarContrasena = ActializarContrasena(
-                        Rut = rutState!!,
-                        Contrasena = oldPassword,
-                        ContrasenaNueva = newPassword
-                    )
-
-                    Log.d(
-                        "ActualizarContrasena",
-                        "Rut: ${actulizarContrasena.Rut}, Contrasena: ${actulizarContrasena.Contrasena}, ContrasenaNueva: ${actulizarContrasena.ContrasenaNueva}"
-                    )
-                    val response = repository.actualizarContrasena(actulizarContrasena)
-                    if (response.isSuccessful) {
-                        navController.navigate("login")
-                    } else {
-                        // Manejar el caso en que la respuesta no sea exitosa
-                        Log.e(
-                            "LoginPage",
-                            "Error al iniciar sesión: ${response.errorBody()?.string()}"
+                if (newPassword == confirmPassword) {
+                    coroutineScope.launch {
+                        val actulizarContrasena = ActializarContrasena(
+                            Rut = rutState!!,
+                            Contrasena = oldPassword,
+                            ContrasenaNueva = newPassword
                         )
+
+                        Log.d(
+                            "ActualizarContrasena",
+                            "Rut: ${actulizarContrasena.Rut}, Contrasena: ${actulizarContrasena.Contrasena}, ContrasenaNueva: ${actulizarContrasena.ContrasenaNueva}"
+                        )
+                        val response = repository.actualizarContrasena(actulizarContrasena)
+                        if (response.isSuccessful) {
+                            navController.navigate("login")
+                        } else {
+                            // Manejar el caso en que la respuesta no sea exitosa
+                            Log.e(
+                                "LoginPage",
+                                "Error al iniciar sesión: ${response.errorBody()?.string()}"
+                            )
+                        }
                     }
+                } else {
+                    Log.e("ActualizarContrasena", "Las contraseñas no coinciden")
+                    // You can also show a message to the user here
                 }
-                navController.navigate("login")
             },
             modifier = Modifier.fillMaxWidth()
         ) {

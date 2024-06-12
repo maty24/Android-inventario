@@ -56,7 +56,6 @@ fun FormularioUsuario(navController: NavHostController) {
             value = rut,
             onValueChange = {
                 rut = it
-
             },
             label = { Text("Rut") },
             modifier = Modifier.fillMaxWidth()
