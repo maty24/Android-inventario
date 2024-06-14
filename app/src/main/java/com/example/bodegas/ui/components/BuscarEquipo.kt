@@ -29,7 +29,7 @@ fun BuscarEquipo(navController: NavHostController, repository: DataRepository) {
         TextField(
             value = macAddress,
             onValueChange = { macAddress = it },
-            label = { Text("Ingrese la dirección MAC") },
+            label = { Text("Ingrese la dirección IP") },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )

@@ -33,8 +33,8 @@ interface ApiService {
     @POST("usuario/")
     suspend fun crearUsuario(@Body usuario: Usuario): Response<Void>
 
-    @GET("equipos/mac/{macAddress}")
-    suspend fun getEquipoPorMac(@Path("macAddress") macAddress: String): Response<EquipoResponse>
+    @GET("equipos/ip/{ip}")
+    suspend fun getEquipoPorMac(@Path("ip") macAddress: String): Response<EquipoResponse>
 }
 
 interface ApiLoginService {

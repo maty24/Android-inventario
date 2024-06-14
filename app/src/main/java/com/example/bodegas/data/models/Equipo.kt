@@ -23,5 +23,6 @@ data class EquipoResponseCreate(
 data class EquipoResponse(
     val IDEquipo: Int,
     val FaltaEnComponenteHardware: Boolean,
-    val FaltaEnSoftwareInstalado: Boolean
+    val FaltaEnSoftwareInstalado: Boolean,
+    val FaltaUbicacion: Boolean,
 )
