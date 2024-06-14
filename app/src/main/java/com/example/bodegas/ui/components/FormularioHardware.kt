@@ -35,7 +35,10 @@ fun FormularioHardware(
     equipoId: String?
 ) {
     var equipoIdState by remember { mutableStateOf(equipoId ?: "") }
+    var idHardware by remember { mutableStateOf("") }
 
+    var btnRegistrarImpresora by remember { mutableStateOf(false) }
+    var btnRegistrarUsuario by remember { mutableStateOf(false) }
 
 
     var NumeroInventario by remember { mutableStateOf("") }
@@ -233,17 +236,19 @@ fun FormularioHardware(
                         try {
                             val response = repository.crearHardware(hardware)
                             if (response.isSuccessful) {
+                                val idHard = response.body()
+                                idHardware = idHard?.IdComponente.toString()
                                 showSnackbar = true
                                 delay(2000)
                                 showSnackbar = false
-                                //petición exitosa
-                                navController.navigate("software/$equipoIdState")
+                                btnRegistrarUsuario = true
+                                btnRegistrarImpresora = true
+                                Log.d("idHardware", idHardware)
                             } else {
                                 Log.e("Error", response.errorBody().toString())
                             }
                         } catch (e: Exception) {
                             Log.e("Error", e.message.toString())
-
                         }
                     }
                 } else {
@@ -254,6 +259,27 @@ fun FormularioHardware(
         ) {
             Text(text = "Registrar")
         }
+        Spacer(modifier = Modifier.padding(8.dp))
+        Button(
+            onClick = {
+                navController.navigate("buscarImpresora/$idHardware")
+            },
+            enabled = btnRegistrarImpresora,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Registrar impresora")
+        }
+        Spacer(modifier = Modifier.padding(8.dp))
+        Button(
+            onClick = {
+
+            },
+            enabled = btnRegistrarUsuario,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Registrar usuario")
+        }
+
         if (showSnackbar) {
             Snackbar(
                 action = {

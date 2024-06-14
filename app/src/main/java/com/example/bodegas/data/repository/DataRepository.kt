@@ -4,11 +4,14 @@ import com.example.bodegas.data.api.ApiIpModule
 import com.example.bodegas.data.api.ApiLoginModule
 import com.example.bodegas.data.api.ApiModule
 import com.example.bodegas.data.models.ActializarContrasena
+import com.example.bodegas.data.models.AsignarImpresora
 import com.example.bodegas.data.models.Equipo
 import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
 import com.example.bodegas.data.models.Hardware
+import com.example.bodegas.data.models.HardwareResponse
 import com.example.bodegas.data.models.Impresora
+import com.example.bodegas.data.models.ImpresoraResponseSerial
 import com.example.bodegas.data.models.IpDisponibleResponse
 import com.example.bodegas.data.models.Login
 import com.example.bodegas.data.models.LoginResponse
@@ -21,7 +24,7 @@ class DataRepository {
         return ApiModule.apiService.crearEquipo(equipo)
     }
 
-    suspend fun crearHardware(hardware: Hardware): Response<Void> {
+    suspend fun crearHardware(hardware: Hardware): Response<HardwareResponse> {
         return ApiModule.apiService.crearHardware(hardware)
     }
 
@@ -41,6 +44,10 @@ class DataRepository {
         return ApiModule.apiService.crearUsuario(usuario)
     }
 
+    suspend fun buscarImpresoraSerial(serial: String): Response<ImpresoraResponseSerial> {
+        return ApiModule.apiService.buscarImpresoraSerial(serial)
+    }
+
 }
 
 class LoginRepository {
@@ -56,5 +63,9 @@ class LoginRepository {
 class IpRepository {
     suspend fun verificarIp(ip: String): Response<IpDisponibleResponse> {
         return ApiIpModule.apiIpService.verificarIp(ip)
+    }
+
+    suspend fun asignarImpresora(asignarImpresora: AsignarImpresora): Response<Void> {
+        return ApiIpModule.apiIpService.asignarImpresora(asignarImpresora)
     }
 }

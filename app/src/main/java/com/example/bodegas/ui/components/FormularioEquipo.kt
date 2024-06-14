@@ -195,25 +195,25 @@ fun FormularioEquipo(
                     scope.launch {
                         try {
                             val response = repository.crearEquipo(equipo)
-                            if (response.code() == 400){
+                            if (response.code() == 400) {
                                 showDialogMac = true
                                 return@launch
                             }
-                                if (response.isSuccessful) { // <-- Ahora puedes usar isSuccessful
-                                    showSnackbar = true // Mostrar el Snackbar
-                                    delay(2000) // Esperar 2 segundos
-                                    showSnackbar = false // Ocultar el Snackbar
-                                    val equipoId = response.body()?.IDEquipo.toString()
-                                    // La petición fue exitosa
-                                    navController.navigate("hardware/$equipoId")
-                                } else {
-                                    Log.e(
-                                        "API_ERROR",
-                                        "Error code: ${response.code()}, Error body: ${
-                                            response.errorBody()?.string()
-                                        }"
-                                    )
-                                }
+                            if (response.isSuccessful) { // <-- Ahora puedes usar isSuccessful
+                                showSnackbar = true // Mostrar el Snackbar
+                                delay(2000) // Esperar 2 segundos
+                                showSnackbar = false // Ocultar el Snackbar
+                                val equipoId = response.body()?.IDEquipo.toString()
+                                // La petición fue exitosa
+                                navController.navigate("software/$equipoId")
+                            } else {
+                                Log.e(
+                                    "API_ERROR",
+                                    "Error code: ${response.code()}, Error body: ${
+                                        response.errorBody()?.string()
+                                    }"
+                                )
+                            }
                         } catch (e: Exception) {
                             // Manejar la excepción (por ejemplo, problemas de red)
                             Log.e("API_EXCEPTION", "Exception: ", e)
@@ -261,7 +261,9 @@ fun FormularioEquipo(
         }
         if (showDialogMac) {
             AlertDialog(
-                onDismissRequest = { showDialogMac = false }, // Cerrar el diálogo al presionar fuera
+                onDismissRequest = {
+                    showDialogMac = false
+                }, // Cerrar el diálogo al presionar fuera
                 title = { Text("Error") },
                 text = { Text("La MAC Address ya existe") },
                 confirmButton = {

@@ -6,4 +6,7 @@ data class Usuario(
     val Dv: String,
     val NombreFuncionario: String,
     val Correo: String,
+    val Anexo: String,
+    val TipoEquipo: String,
+    val TipoUso: String
 )

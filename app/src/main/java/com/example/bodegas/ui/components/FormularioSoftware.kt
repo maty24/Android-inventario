@@ -48,6 +48,8 @@ fun FormularioSoftware(
 ) {
     var equipoIdState by remember { mutableStateOf(equipoId ?: "") }
 
+
+
     val optionsSistemaOperativo = sistemasOperativos
     var edicionSistemaOperativo by remember { mutableStateOf(optionsSistemaOperativo[0]) }
     var expandedSistemaOperativo by remember { mutableStateOf(false) }
@@ -129,7 +131,9 @@ fun FormularioSoftware(
         Text(text = "Versión del sistema operativo")
         ExposedDropdownMenuBox(
             expanded = expandedVersionSistemaOperativo,
-            onExpandedChange = { expandedVersionSistemaOperativo = !expandedVersionSistemaOperativo }
+            onExpandedChange = {
+                expandedVersionSistemaOperativo = !expandedVersionSistemaOperativo
+            }
         ) {
             TextField(
                 modifier = Modifier
@@ -300,7 +304,7 @@ fun FormularioSoftware(
                             showSnackbar = true // Mostrar el Snackbar
                             delay(2000) // Esperar 2 segundos
                             showSnackbar = false // Ocultar el Snackbar
-                            navController.navigate("home")
+                            navController.navigate("hardware/$equipoIdState")
                         } else {
                             Log.e("Error", response.errorBody().toString())
                         }
@@ -313,14 +317,6 @@ fun FormularioSoftware(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = "Registrar software")
-        }
-        Button(
-            onClick = {
-                navController.navigate("home")
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Volver al inicio")
         }
     }
 

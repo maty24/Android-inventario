@@ -8,3 +8,12 @@ data class Impresora(
     val TipoInterface: Int,
     val TipoUso: String
 )
+
+data class ImpresoraResponseSerial(
+    val IdImpresora: Int
+)
+
+data class AsignarImpresora(
+    val IdImpresora: Int,
+    val IdComponente: Int
+)

@@ -44,6 +44,8 @@ fun FormularioImpresora(navController: NavHostController) {
     var TipoInterface by remember { mutableIntStateOf(0) }
     var TipoUso by remember { mutableStateOf("") }
 
+    var ipImpresora by remember { mutableStateOf("") }
+
     var showDialog by remember { mutableStateOf(false) }
     var showSnackbar by remember { mutableStateOf(false) }
 
@@ -119,6 +121,20 @@ fun FormularioImpresora(navController: NavHostController) {
         } else if (selectedOption == "LAN") {
             TipoInterface = 2
         }
+        Spacer(modifier = Modifier.height(4.dp))
+        if (selectedOption == "USB") {
+            TipoInterface = 1
+            ipImpresora = ""
+        } else if (selectedOption == "LAN") {
+            TipoInterface = 2
+        }
+        OutlinedTextField(
+            value = ipImpresora,
+            onValueChange = { ipImpresora = it },
+            label = { Text("IP impresora") },
+            enabled = selectedOption == "LAN",
+            modifier = Modifier.fillMaxWidth()
+        )
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
             value = TipoUso,

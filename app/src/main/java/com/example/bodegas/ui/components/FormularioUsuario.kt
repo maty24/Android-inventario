@@ -35,6 +35,11 @@ fun FormularioUsuario(navController: NavHostController) {
     var dv by remember { mutableStateOf("") }
     var nombreFuncionario by remember { mutableStateOf("") }
     var correo by remember { mutableStateOf("") }
+    var anexo by remember { mutableStateOf("") }
+    var tipoEquipo by remember { mutableStateOf("") }
+    var tipoUso by remember { mutableStateOf("") }
+
+
 
     val repository = remember { DataRepository() } // Crear el repositorio
     val scope = rememberCoroutineScope() // Crear un CoroutineScope
@@ -75,6 +80,26 @@ fun FormularioUsuario(navController: NavHostController) {
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.padding(8.dp))
+        OutlinedTextField(
+            value = anexo,
+            onValueChange = { anexo = it },
+            label = { Text("Anexo") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
+        OutlinedTextField(
+            value = tipoEquipo,
+            onValueChange = { tipoEquipo = it },
+            label = { Text("Tipo de equipo") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
+        OutlinedTextField(
+            value = tipoUso,
+            onValueChange = { tipoUso = it },
+            label = { Text("Tipo de uso") },
+            modifier = Modifier.fillMaxWidth()
+        )
         Button(
             onClick = {
                 if (rut.isNotEmpty()) {
@@ -85,7 +110,10 @@ fun FormularioUsuario(navController: NavHostController) {
                     Rut = rut,
                     Dv = dv,
                     NombreFuncionario = nombreFuncionario,
-                    Correo = correo
+                    Correo = correo,
+                    Anexo = anexo,
+                    TipoEquipo = tipoEquipo,
+                    TipoUso = tipoUso
                 )
                 scope.launch {
                     try {

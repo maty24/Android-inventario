@@ -25,3 +25,6 @@ data class Hardware(
 )
 
 
+data class HardwareResponse(
+    val IdComponente: Int
+)

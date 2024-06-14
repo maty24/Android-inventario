@@ -8,6 +8,7 @@ import com.example.bodegas.data.repository.DataRepository
 import com.example.bodegas.data.repository.IpRepository
 import com.example.bodegas.ui.components.ActualizarContrasena
 import com.example.bodegas.ui.components.BuscarEquipo
+import com.example.bodegas.ui.components.BuscarImpresora
 import com.example.bodegas.ui.components.BuscarIpDisponible
 import com.example.bodegas.ui.components.FormularioEquipo
 import com.example.bodegas.ui.components.FormularioHardware
@@ -45,6 +46,15 @@ fun AppNavigation() {
         composable("software/{equipoId}") { backStackEntry ->
             val equipoId = backStackEntry.arguments?.getString("equipoId")
             FormularioSoftware(navController, equipoId)
+        }
+        composable("buscarImpresora/{hardware}") { backStackEntry ->
+            val hardware = backStackEntry.arguments?.getString("hardware")
+            BuscarImpresora(
+                navController = navController,
+                repository = repository,
+                repositoryAsignaImpresora = repositoryIp,
+                hardware = hardware
+            )
         }
         composable("impresora") { FormularioImpresora(navController) }
         composable("usuario") { FormularioUsuario(navController) }
