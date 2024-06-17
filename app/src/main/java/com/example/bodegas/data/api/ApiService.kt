@@ -7,9 +7,11 @@ import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
 import com.example.bodegas.data.models.Hardware
 import com.example.bodegas.data.models.HardwareResponse
+import com.example.bodegas.data.models.ImpersoraIdIp
 import com.example.bodegas.data.models.Impresora
 import com.example.bodegas.data.models.ImpresoraResponseSerial
 import com.example.bodegas.data.models.IpDisponibleResponse
+import com.example.bodegas.data.models.IpImpresoraResponse
 import com.example.bodegas.data.models.Login
 import com.example.bodegas.data.models.LoginResponse
 import com.example.bodegas.data.models.Software
@@ -32,7 +34,10 @@ interface ApiService {
     suspend fun crearSoftware(@Body software: Software): Response<Void>
 
     @POST("impresora/")
-    suspend fun crearImpresora(@Body impresora: Impresora): Response<Void>
+    suspend fun crearImpresora(@Body impresora: Impresora): Response<ImpresoraResponseSerial>
+
+    @POST("impresora/")
+    suspend fun crearImpresoraIpId(@Body impresoraIp: ImpersoraIdIp): Response<ImpresoraResponseSerial>
 
     @POST("usuario/")
     suspend fun crearUsuario(@Body usuario: Usuario): Response<Void>
@@ -57,7 +62,13 @@ interface ApiIpService {
     @GET("ip_disponibles/ip/{ip}")
     suspend fun verificarIp(@Path("ip") ip: String): Response<IpDisponibleResponse>
 
-    @PATCH("asignaciones/asignar_impresora")
-    suspend fun asignarImpresora(@Body asignarImpresora: AsignarImpresora): Response<Void>
+    @PATCH("asignaciones/asignar_impresora/{IdComponente}")
+    suspend fun asignarImpresora(
+        @Path("IdComponente") IdComponente: Int,
+        @Body asignarImpresora: AsignarImpresora
+    ): Response<Void>
+
+    @GET("ip_impresoras/ip/{ip}")
+    suspend fun verificarIpImpresora(@Path("ip") ip: String): Response<IpImpresoraResponse>
 
 }

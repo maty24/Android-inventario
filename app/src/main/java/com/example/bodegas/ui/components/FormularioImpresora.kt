@@ -20,6 +20,7 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -30,13 +31,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.bodegas.data.models.AsignarImpresora
+import com.example.bodegas.data.models.ImpersoraIdIp
 import com.example.bodegas.data.models.Impresora
 import com.example.bodegas.data.repository.DataRepository
+import com.example.bodegas.data.repository.IpRepository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun FormularioImpresora(navController: NavHostController) {
+
+    var IdComponente by remember { mutableIntStateOf(1) }
+
+    var IdIpImpresora by remember { mutableIntStateOf(0) }
+    var IdImpresora by remember { mutableIntStateOf(0) }
+
+
+
+
 
     var NumeroSerie by remember { mutableStateOf("") }
     var Marca by remember { mutableStateOf("") }
@@ -50,6 +64,7 @@ fun FormularioImpresora(navController: NavHostController) {
     var showSnackbar by remember { mutableStateOf(false) }
 
     val repository = remember { DataRepository() } // Crear el repositorio
+    val repositoryIp = remember { IpRepository() } // Crear el repositorio
     val scope = rememberCoroutineScope() // Crear un CoroutineScope
 
     val options = listOf("USB", "LAN")
@@ -152,26 +167,70 @@ fun FormularioImpresora(navController: NavHostController) {
                     TipoInterface,
                     TipoUso
                 )
+                val impresoraHardware = ImpersoraIdIp(
+                    NumeroSerie,
+                    Marca,
+                    Modelo,
+                    TipoInterface,
+                    TipoUso,
+                    IdIpImpresora
+                )
+
                 scope.launch {
-                    val response = repository.crearImpresora(impresora)
-                    if (response.isSuccessful) {
-                        showSnackbar = true // Mostrar el Snackbar
-                        delay(2000) // Esperar 2 segundos
-                        showSnackbar = false // Ocultar el Snackbar
-                        navController.navigate("home")
-                    } else {
-                        Log.e(
-                            "API_ERROR",
-                            "Error code: ${response.code()}, Error body: ${
-                                response.errorBody()?.string()
-                            }"
-                        )
+                    if (TipoInterface == 2 && ipImpresora.isNotEmpty()) {
+                        // Iniciar la búsqueda de la IP de la impresora
+                        val responseIpImpresoraAsync = async { repositoryIp.buscarImpresoraIp(ipImpresora) }
+
+                        // Esperar a que se complete la búsqueda de la IP de la impresora
+                        val responseIpImpresora = responseIpImpresoraAsync.await()
+                        if (responseIpImpresora.isSuccessful) {
+                            val idIpImpresora = responseIpImpresora.body()
+                            Log.d("IpImpresora", idIpImpresora.toString())
+                            IdIpImpresora = idIpImpresora?.id ?: 0
+                        }
+
+                        // Iniciar la creación de la impresora con IP
+                        val responseImpresorsIpAsync = async { repository.crearImpresoraIpId(impresoraHardware) }
+
+                        // Esperar a que se complete la creación de la impresora con IP
+                        val responseImpresorsIp = responseImpresorsIpAsync.await()
+                        if (responseImpresorsIp.isSuccessful) {
+                            val idImpresora = responseImpresorsIp.body()
+                            Log.d("Impresora", idImpresora.toString())
+                            IdImpresora = idImpresora?.IdImpresora ?: 0
+
+                            // Iniciar la asignación de la impresora al hardware
+                            val asignacion = AsignarImpresora(IdImpresora)
+                            val responseAsignarImpresoraAsync = async { repositoryIp.asignarImpresora(IdComponente.toInt(), asignacion) }
+
+                            // Esperar a que se complete la asignación de la impresora al hardware
+                            val responseAsignarImpresora = responseAsignarImpresoraAsync.await()
+                            if (responseAsignarImpresora.isSuccessful) {
+                                showSnackbar = true // Mostrar el Snackbar
+                                delay(2000) // Esperar 2 segundos
+                                showSnackbar = false // Ocultar el Snackbar
+                            } else {
+                                Log.e(
+                                    "API_ERROR",
+                                    "Error code: ${responseAsignarImpresora.code()}, Error body: ${
+                                        responseAsignarImpresora.errorBody()?.string()
+                                    }"
+                                )
+                            }
+                        } else {
+                            Log.e(
+                                "API_ERROR",
+                                "Error code: ${responseImpresorsIp.code()}, Error body: ${
+                                    responseImpresorsIp.errorBody()?.string()
+                                }"
+                            )
+                        }
                     }
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Registrar impresora")
+            Text("Registrar y asignar impresoraa")
         }
         Button(
             onClick = {

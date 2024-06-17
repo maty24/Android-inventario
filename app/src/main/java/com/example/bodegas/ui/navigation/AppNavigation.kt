@@ -38,7 +38,6 @@ fun AppNavigation() {
             val ip = backStackEntry.arguments?.getString("ip")
             FormularioEquipo(navController, ip)
         }
-
         composable("hardware/{equipoId}") { backStackEntry ->
             val equipoId = backStackEntry.arguments?.getString("equipoId")
             FormularioHardware(navController, equipoId)

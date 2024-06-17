@@ -10,9 +10,11 @@ import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
 import com.example.bodegas.data.models.Hardware
 import com.example.bodegas.data.models.HardwareResponse
+import com.example.bodegas.data.models.ImpersoraIdIp
 import com.example.bodegas.data.models.Impresora
 import com.example.bodegas.data.models.ImpresoraResponseSerial
 import com.example.bodegas.data.models.IpDisponibleResponse
+import com.example.bodegas.data.models.IpImpresoraResponse
 import com.example.bodegas.data.models.Login
 import com.example.bodegas.data.models.LoginResponse
 import com.example.bodegas.data.models.Software
@@ -32,8 +34,12 @@ class DataRepository {
         return ApiModule.apiService.crearSoftware(software)
     }
 
-    suspend fun crearImpresora(impresora: Impresora): Response<Void> {
+    suspend fun crearImpresora(impresora: Impresora): Response<ImpresoraResponseSerial> {
         return ApiModule.apiService.crearImpresora(impresora)
+    }
+
+    suspend fun crearImpresoraIpId(impresoraIp: ImpersoraIdIp): Response<ImpresoraResponseSerial> {
+        return ApiModule.apiService.crearImpresoraIpId(impresoraIp)
     }
 
     suspend fun getEquipoPorMac(macAddress: String): Response<EquipoResponse> {
@@ -65,7 +71,15 @@ class IpRepository {
         return ApiIpModule.apiIpService.verificarIp(ip)
     }
 
-    suspend fun asignarImpresora(asignarImpresora: AsignarImpresora): Response<Void> {
-        return ApiIpModule.apiIpService.asignarImpresora(asignarImpresora)
+    suspend fun asignarImpresora(
+        asignarImpresora1: Int,
+        asignarImpresora: AsignarImpresora
+    ): Response<Void> {
+        return ApiIpModule.apiIpService.asignarImpresora(asignarImpresora1, asignarImpresora)
     }
+
+    suspend fun buscarImpresoraIp(ip: String): Response<IpImpresoraResponse> {
+        return ApiIpModule.apiIpService.verificarIpImpresora(ip)
+    }
+
 }

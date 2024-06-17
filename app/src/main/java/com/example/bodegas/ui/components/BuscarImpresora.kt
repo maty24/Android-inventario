@@ -89,10 +89,9 @@ fun BuscarImpresora(
                     try {
                         if (hardwareId.isNotBlank() && impresoraId.isNotBlank()) {
                             val asignacion = AsignarImpresora(
-                                IdComponente = hardwareId.toInt(),
                                 IdImpresora = impresoraId.toInt()
                             )
-                            val response = repositoryAsignaImpresora.asignarImpresora(asignacion)
+                            val response = repositoryAsignaImpresora.asignarImpresora(hardwareId.toInt(), asignacion)
                             if (response.isSuccessful) {
                                 btnRegistrarUsuario = true
                             }
