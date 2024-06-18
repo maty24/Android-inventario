@@ -170,6 +170,7 @@ fun FormRegistroIpImpresora(navController: NavHostController, hardware: String?)
                     try {
                         if (responseAsignacion.isSuccessful) {
                             activarBtnAsignar = false
+                            navController.navigate("usuario")
                         } else {
 
                         }

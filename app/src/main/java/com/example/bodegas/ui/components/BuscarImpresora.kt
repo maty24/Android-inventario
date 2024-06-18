@@ -37,6 +37,8 @@ fun BuscarImpresora(
     var impresoraId by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
 
+
+
     var btnRegistroImpresora by remember { mutableStateOf(true) }
     var btnAsignarImpresora by remember { mutableStateOf(false) }
     var btnRegistrarUsuario by remember { mutableStateOf(false) }

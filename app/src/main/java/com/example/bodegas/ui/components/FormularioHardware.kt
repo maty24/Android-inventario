@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.bodegas.data.models.Hardware
 import com.example.bodegas.data.repository.DataRepository
+import com.example.bodegas.utils.Global
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -211,6 +212,7 @@ fun FormularioHardware(
                             if (response.isSuccessful) {
                                 val idHard = response.body()
                                 idHardware = idHard?.IdComponente.toString()
+                                Global.IDEquipo = equipoIdState
                                 showSnackbar = true
                                 delay(2000)
                                 showSnackbar = false
@@ -245,7 +247,7 @@ fun FormularioHardware(
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-
+                navController.navigate("usuario")
             },
             enabled = btnRegistrarUsuario,
             modifier = Modifier.fillMaxWidth()

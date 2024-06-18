@@ -10,3 +10,7 @@ data class Usuario(
     val TipoEquipo: String,
     val TipoUso: String
 )
+
+data class UsuarioResponse(
+    val IdUsuario: Int
+)

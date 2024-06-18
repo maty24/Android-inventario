@@ -16,6 +16,7 @@ import com.example.bodegas.data.models.Login
 import com.example.bodegas.data.models.LoginResponse
 import com.example.bodegas.data.models.Software
 import com.example.bodegas.data.models.Usuario
+import com.example.bodegas.data.models.UsuarioResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -40,7 +41,7 @@ interface ApiService {
     suspend fun crearImpresoraIpId(@Body impresoraIp: ImpersoraIdIp): Response<ImpresoraResponseSerial>
 
     @POST("usuario/")
-    suspend fun crearUsuario(@Body usuario: Usuario): Response<Void>
+    suspend fun crearUsuario(@Body usuario: Usuario): Response<UsuarioResponse>
 
     @GET("equipos/ip/{ip}")
     suspend fun getEquipoPorMac(@Path("ip") macAddress: String): Response<EquipoResponse>

@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bodegas.data.models.Usuario
 import com.example.bodegas.data.repository.DataRepository
+import com.example.bodegas.utils.Global
 import kotlinx.coroutines.launch
 
 
@@ -39,7 +40,11 @@ fun FormularioUsuario(navController: NavHostController) {
     var tipoEquipo by remember { mutableStateOf("") }
     var tipoUso by remember { mutableStateOf("") }
 
+    var IDEquipo by remember { mutableStateOf(Global.IDEquipo) }
+    var IdUsuario by remember { mutableStateOf(0) }
 
+
+    var btnAsignarEquipo by remember { mutableStateOf(false) }
 
     val repository = remember { DataRepository() } // Crear el repositorio
     val scope = rememberCoroutineScope() // Crear un CoroutineScope
@@ -119,7 +124,8 @@ fun FormularioUsuario(navController: NavHostController) {
                     try {
                         val response = repository.crearUsuario(usuario)
                         if (response.isSuccessful) {
-                            navController.navigate("home")
+                            IdUsuario = response.body()?.IdUsuario ?: 0
+                            btnAsignarEquipo = true
                         } else {
                             Log.e(
                                 "FormularioUsuario",
@@ -137,10 +143,14 @@ fun FormularioUsuario(navController: NavHostController) {
         Button(
             onClick = {
 
-                navController.navigate("home")
-            }, Modifier.fillMaxWidth()
+                scope.launch {
+
+                }
+            },
+            Modifier.fillMaxWidth(),
+            enabled = btnAsignarEquipo
         ) {
-            Text(text = "Atras")
+            Text(text = "Asignar equipo")
         }
     }
 }

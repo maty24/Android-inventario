@@ -19,6 +19,7 @@ import com.example.bodegas.data.models.Login
 import com.example.bodegas.data.models.LoginResponse
 import com.example.bodegas.data.models.Software
 import com.example.bodegas.data.models.Usuario
+import com.example.bodegas.data.models.UsuarioResponse
 import retrofit2.Response
 
 class DataRepository {
@@ -46,7 +47,7 @@ class DataRepository {
         return ApiModule.apiService.getEquipoPorMac(macAddress)
     }
 
-    suspend fun crearUsuario(usuario: Usuario): Response<Void> {
+    suspend fun crearUsuario(usuario: Usuario): Response<UsuarioResponse> {
         return ApiModule.apiService.crearUsuario(usuario)
     }
 

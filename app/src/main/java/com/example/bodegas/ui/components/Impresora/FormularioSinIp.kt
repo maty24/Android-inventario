@@ -124,7 +124,7 @@ fun FormularioSinIp(navController: NavHostController, hardware: String?) {
                         respositoryIp.asignarImpresora(IdComponente, asignacion)
                     if (responseAsignacion.isSuccessful) {
                         Log.d("Asignacion", "Asignacion exitosa")
-
+                        navController.navigate("usuario")
                     }
                 }
             },
