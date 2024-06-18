@@ -37,15 +37,6 @@ fun HomePage(navController: NavHostController) {
             Text(text = "Registro equipo", color = Color.White)
         }
         Button(
-            onClick = { navController.navigate("impresora") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            elevation = ButtonDefaults.elevatedButtonElevation()
-        ) {
-            Text(text = "Registro impresora", color = Color.White)
-        }
-        Button(
             onClick = { navController.navigate("usuario") },
             modifier = Modifier
                 .fillMaxWidth()

@@ -6,6 +6,7 @@ data class Impresora(
     val Marca: String,
     val Modelo: String,
     val TipoInterface: Int,
+    val Proveedor: String,
     val TipoUso: String
 )
 
@@ -15,6 +16,7 @@ data class ImpersoraIdIp(
     val Modelo: String,
     val TipoInterface: Int,
     val TipoUso: String,
+    val Proveedor: String,
     val IdIpImpresora: Int
 )
 

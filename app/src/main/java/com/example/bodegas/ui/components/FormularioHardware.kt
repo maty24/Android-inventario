@@ -50,9 +50,6 @@ fun FormularioHardware(
     var Ram by remember { mutableStateOf("") }
     var TarjetaVideo by remember { mutableStateOf("") }
     var Almacenamiento by remember { mutableStateOf("") }
-    var MarcaImpresora by remember { mutableStateOf("") }
-    var ModeloImpresora by remember { mutableStateOf("") }
-    var ProveedorImpresora by remember { mutableStateOf("") }
     var Huellero by remember { mutableStateOf(false) }
     var Scanner by remember { mutableStateOf(false) }
     var SerieScanner by remember { mutableStateOf("") }
@@ -146,27 +143,6 @@ fun FormularioHardware(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.padding(8.dp))
-        OutlinedTextField(
-            value = MarcaImpresora,
-            onValueChange = { MarcaImpresora = it },
-            label = { Text("Marca de la impresora") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.padding(8.dp))
-        OutlinedTextField(
-            value = ModeloImpresora,
-            onValueChange = { ModeloImpresora = it },
-            label = { Text("Modelo de la impresora") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.padding(8.dp))
-        OutlinedTextField(
-            value = ProveedorImpresora,
-            onValueChange = { ProveedorImpresora = it },
-            label = { Text("Proveedor de la impresora") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.padding(8.dp))
         Text(text = "Huellero disponible ?")
         Switch(
 
@@ -220,9 +196,6 @@ fun FormularioHardware(
                         Ram,
                         TarjetaVideo,
                         Almacenamiento,
-                        MarcaImpresora,
-                        ModeloImpresora,
-                        ProveedorImpresora,
                         Huellero,
                         Scanner,
                         SerieScanner,

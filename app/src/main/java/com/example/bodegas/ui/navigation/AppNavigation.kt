@@ -12,10 +12,12 @@ import com.example.bodegas.ui.components.BuscarImpresora
 import com.example.bodegas.ui.components.BuscarIpDisponible
 import com.example.bodegas.ui.components.FormularioEquipo
 import com.example.bodegas.ui.components.FormularioHardware
-import com.example.bodegas.ui.components.FormularioImpresora
 import com.example.bodegas.ui.components.FormularioSoftware
 import com.example.bodegas.ui.components.FormularioUsuario
 import com.example.bodegas.ui.components.HomePage
+import com.example.bodegas.ui.components.Impresora.FormRegistroIpImpresora
+import com.example.bodegas.ui.components.Impresora.FormularioSinIp
+import com.example.bodegas.ui.components.Impresora.TipoFormulario
 import com.example.bodegas.ui.components.LoginPage
 
 
@@ -55,11 +57,23 @@ fun AppNavigation() {
                 hardware = hardware
             )
         }
-        composable("impresora") { FormularioImpresora(navController) }
+        composable("impresora/{hardware}") { backStackEntry ->
+            val hardware = backStackEntry.arguments?.getString("hardware")
+            TipoFormulario(navController, hardware)
+        }
+        composable("impresoraConIp/{hardware}") { backStackEntry ->
+            val hardware = backStackEntry.arguments?.getString("hardware")
+            FormRegistroIpImpresora(navController, hardware)
+        }
+        composable("impresoraSinIp/{hardware}") { backStackEntry ->
+            val hardware = backStackEntry.arguments?.getString("hardware")
+            FormularioSinIp(navController,hardware)
+        }
         composable("usuario") { FormularioUsuario(navController) }
         composable("buscar") { BuscarEquipo(navController, repository) }
         composable("buscarip") { BuscarIpDisponible(navController, repositoryIp) }
     }
 }
+
 
 

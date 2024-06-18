@@ -75,7 +75,7 @@ fun BuscarImpresora(
         Spacer(modifier = Modifier.height(6.dp))
         Button(
             onClick = {
-
+                      navController.navigate("impresora/$hardwareId")
             },
             enabled = btnRegistroImpresora,
             modifier = Modifier.fillMaxWidth()

@@ -11,13 +11,19 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
-fun TipoFormulario() {
+fun TipoFormulario(navController: NavHostController, hardware: String?) {
+    val hardwareId by remember { mutableStateOf(hardware ?: "") }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -32,14 +38,18 @@ fun TipoFormulario() {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            onClick = { /* Aquí va la lógica para el registro con IP */ },
+            onClick = {
+                navController.navigate("impresoraConIp/$hardwareId")
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Registro con IP")
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(
-            onClick = { /* Aquí va la lógica para el registro sin IP */ },
+            onClick = {
+                navController.navigate("impresoraSinIp/$hardwareId")
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Registro sin IP")
