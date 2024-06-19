@@ -4,6 +4,7 @@ import com.example.bodegas.data.api.ApiIpModule
 import com.example.bodegas.data.api.ApiLoginModule
 import com.example.bodegas.data.api.ApiModule
 import com.example.bodegas.data.models.ActializarContrasena
+import com.example.bodegas.data.models.AsignacionesEquipo
 import com.example.bodegas.data.models.AsignarImpresora
 import com.example.bodegas.data.models.Equipo
 import com.example.bodegas.data.models.EquipoResponse
@@ -18,6 +19,7 @@ import com.example.bodegas.data.models.IpImpresoraResponse
 import com.example.bodegas.data.models.Login
 import com.example.bodegas.data.models.LoginResponse
 import com.example.bodegas.data.models.Software
+import com.example.bodegas.data.models.UbicacionResponse
 import com.example.bodegas.data.models.Usuario
 import com.example.bodegas.data.models.UsuarioResponse
 import retrofit2.Response
@@ -55,6 +57,10 @@ class DataRepository {
         return ApiModule.apiService.buscarImpresoraSerial(serial)
     }
 
+    suspend fun getUbicacionesPorPiso(piso: Int): Response<List<UbicacionResponse>> {
+        return ApiModule.apiService.getUbicacionesPorPiso(piso)
+    }
+
 }
 
 class LoginRepository {
@@ -81,6 +87,10 @@ class IpRepository {
 
     suspend fun buscarImpresoraIp(ip: String): Response<IpImpresoraResponse> {
         return ApiIpModule.apiIpService.verificarIpImpresora(ip)
+    }
+
+    suspend fun asignarEquipo(asignarEquipo: AsignacionesEquipo): Response<Void> {
+        return ApiIpModule.apiIpService.asignarEquipo(asignarEquipo)
     }
 
 }

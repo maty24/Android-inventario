@@ -1,6 +1,7 @@
 package com.example.bodegas.data.api
 
 import com.example.bodegas.data.models.ActializarContrasena
+import com.example.bodegas.data.models.AsignacionesEquipo
 import com.example.bodegas.data.models.AsignarImpresora
 import com.example.bodegas.data.models.Equipo
 import com.example.bodegas.data.models.EquipoResponse
@@ -15,6 +16,7 @@ import com.example.bodegas.data.models.IpImpresoraResponse
 import com.example.bodegas.data.models.Login
 import com.example.bodegas.data.models.LoginResponse
 import com.example.bodegas.data.models.Software
+import com.example.bodegas.data.models.UbicacionResponse
 import com.example.bodegas.data.models.Usuario
 import com.example.bodegas.data.models.UsuarioResponse
 import retrofit2.Response
@@ -48,6 +50,9 @@ interface ApiService {
 
     @GET("impresora/serie/{serial}")
     suspend fun buscarImpresoraSerial(@Path("serial") serial: String): Response<ImpresoraResponseSerial>
+
+    @GET("ubicaciones/piso/{piso}")
+    suspend fun getUbicacionesPorPiso(@Path("piso") piso: Int): Response<List<UbicacionResponse>>
 }
 
 interface ApiLoginService {
@@ -71,5 +76,8 @@ interface ApiIpService {
 
     @GET("ip_impresoras/ip/{ip}")
     suspend fun verificarIpImpresora(@Path("ip") ip: String): Response<IpImpresoraResponse>
+
+    @POST("/asignaciones/equipo_asignacion")
+    suspend fun asignarEquipo(@Body asignarEquipo: AsignacionesEquipo): Response<Void>
 
 }

@@ -23,8 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.bodegas.data.models.AsignacionesEquipo
 import com.example.bodegas.data.models.Usuario
 import com.example.bodegas.data.repository.DataRepository
+import com.example.bodegas.data.repository.IpRepository
 import com.example.bodegas.utils.Global
 import kotlinx.coroutines.launch
 
@@ -40,13 +42,14 @@ fun FormularioUsuario(navController: NavHostController) {
     var tipoEquipo by remember { mutableStateOf("") }
     var tipoUso by remember { mutableStateOf("") }
 
-    var IDEquipo by remember { mutableStateOf(Global.IDEquipo) }
+    var IDEquipo by remember { mutableStateOf(Global.IDEquipo?.toInt() ?: 0) }
     var IdUsuario by remember { mutableStateOf(0) }
 
 
     var btnAsignarEquipo by remember { mutableStateOf(false) }
 
     val repository = remember { DataRepository() } // Crear el repositorio
+    val repositoryIp = remember { IpRepository() } // Crear el repositorio
     val scope = rememberCoroutineScope() // Crear un CoroutineScope
 
     Column(
@@ -142,9 +145,20 @@ fun FormularioUsuario(navController: NavHostController) {
         }
         Button(
             onClick = {
-
+                val asignaciones = AsignacionesEquipo(
+                    IdEquipo = IDEquipo,
+                    IdUsuario = IdUsuario
+                )
                 scope.launch {
-
+                    val response = repositoryIp.asignarEquipo(asignaciones)
+                    if (response.isSuccessful) {
+                        Log.d("FormularioUsuario", "Equipo asignado correctamente")
+                    } else {
+                        Log.e(
+                            "FormularioUsuario",
+                            "Error al asignar equipo: ${response.errorBody()}"
+                        )
+                    }
                 }
             },
             Modifier.fillMaxWidth(),
