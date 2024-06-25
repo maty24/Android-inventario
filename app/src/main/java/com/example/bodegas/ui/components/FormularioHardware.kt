@@ -2,6 +2,7 @@ package com.example.bodegas.ui.components
 
 import android.util.Log
 import android.widget.Space
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,6 +36,8 @@ fun FormularioHardware(
     navController: NavHostController,
     equipoId: String?
 ) {
+    BackHandler(enabled = true) {}
+
     var equipoIdState by remember { mutableStateOf(equipoId ?: "") }
     var idHardware by remember { mutableStateOf("") }
 

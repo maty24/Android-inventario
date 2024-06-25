@@ -1,7 +1,6 @@
 package com.example.bodegas.data.models
 
 
-
 data class UbicacionResponse(
     val IdUbicacion: Int,
     val Edificio: String,
@@ -11,3 +10,6 @@ data class UbicacionResponse(
 )
 
 
+data class AsignarUbicacionId(
+    val IDUbicacion: Int
+)

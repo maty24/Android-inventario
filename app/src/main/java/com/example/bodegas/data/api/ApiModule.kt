@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object ApiIpModule {
-    private const val BASE_URL = "http://10.6.22.9:8081/"
+    private const val BASE_URL = "http://ws.hcsba.cl/isa2-inventario/"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -20,7 +20,7 @@ object ApiIpModule {
 
 
 object ApiModule {
-    private const val BASE_URL = "http://10.6.22.9:8082/"
+    private const val BASE_URL = "http://ws.hcsba.cl/isa2-inventario-create/"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -40,7 +40,7 @@ object ApiModule {
 }
 
 object ApiLoginModule {
-    private const val BASE_URL = "http://10.6.22.9:8083/"
+    private const val BASE_URL = "http://ws.hcsba.cl/isa2-tecnicos/"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)

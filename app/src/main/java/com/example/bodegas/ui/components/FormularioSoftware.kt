@@ -1,6 +1,7 @@
 package com.example.bodegas.ui.components
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.bodegas.data.models.Software
 import com.example.bodegas.data.models.edicionOffice
@@ -46,8 +48,11 @@ fun FormularioSoftware(
     navController: NavHostController,
     equipoId: String?
 ) {
-    var equipoIdState by remember { mutableStateOf(equipoId ?: "") }
 
+    BackHandler(enabled = true) {}
+
+
+    var equipoIdState by remember { mutableStateOf(equipoId ?: "") }
 
 
     val optionsSistemaOperativo = sistemasOperativos
@@ -304,7 +309,13 @@ fun FormularioSoftware(
                             showSnackbar = true // Mostrar el Snackbar
                             delay(2000) // Esperar 2 segundos
                             showSnackbar = false // Ocultar el Snackbar
-                            navController.navigate("hardware/$equipoIdState")
+                            navController.navigate("hardware/$equipoIdState") {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         } else {
                             Log.e("Error", response.errorBody().toString())
                         }

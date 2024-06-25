@@ -3,6 +3,7 @@ package com.example.bodegas.data.api
 import com.example.bodegas.data.models.ActializarContrasena
 import com.example.bodegas.data.models.AsignacionesEquipo
 import com.example.bodegas.data.models.AsignarImpresora
+import com.example.bodegas.data.models.AsignarUbicacionId
 import com.example.bodegas.data.models.Equipo
 import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
@@ -52,14 +53,14 @@ interface ApiService {
     suspend fun buscarImpresoraSerial(@Path("serial") serial: String): Response<ImpresoraResponseSerial>
 
     @GET("ubicaciones/piso/{piso}")
-    suspend fun getUbicacionesPorPiso(@Path("piso") piso: Int): Response<List<UbicacionResponse>>
+    suspend fun getUbicacionesPorPiso(@Path("piso") piso: String): Response<List<UbicacionResponse>>
 }
 
 interface ApiLoginService {
-    @POST("tecnicos/login")
+    @POST("login")
     suspend fun login(@Body login: Login): Response<LoginResponse>
 
-    @POST("tecnicos/actualizar_contrasena")
+    @POST("actualizar_contrasena")
     suspend fun actualizarContrasena(@Body actualizarContrasena: ActializarContrasena): Response<Void>
 
 }
@@ -77,7 +78,14 @@ interface ApiIpService {
     @GET("ip_impresoras/ip/{ip}")
     suspend fun verificarIpImpresora(@Path("ip") ip: String): Response<IpImpresoraResponse>
 
-    @POST("/asignaciones/equipo_asignacion")
+    @POST("asignaciones/equipo_asignacion")
     suspend fun asignarEquipo(@Body asignarEquipo: AsignacionesEquipo): Response<Void>
+
+    @PATCH("asignaciones/asignar_ubicacion/{IdEquipo}")
+    suspend fun asignarUbicacion(
+        @Path("IdEquipo") IdEquipo: String,
+        @Body asignarUbicacion: AsignarUbicacionId
+    ): Response<Void>
+
 
 }

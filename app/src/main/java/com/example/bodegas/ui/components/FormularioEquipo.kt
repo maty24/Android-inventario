@@ -1,6 +1,7 @@
 package com.example.bodegas.ui.components
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +24,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -30,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.bodegas.data.models.Equipo
 import com.example.bodegas.data.repository.DataRepository
 import kotlinx.coroutines.delay
@@ -43,8 +46,10 @@ fun FormularioEquipo(
     ip: String?
 ) {
 
-    var IDIpDisponible by remember { mutableStateOf(ip?.replace(".", "")?.toIntOrNull() ?: 0) }
-    var MascaraRed by remember { mutableStateOf("") }
+    BackHandler(enabled = true) {}
+
+    var IDIpDisponible by remember { mutableIntStateOf(ip?.replace(".", "")?.toIntOrNull() ?: 0) }
+
     var PuertaEnlace by remember { mutableStateOf("") }
     var DnsPrimario by remember { mutableStateOf("") }
     var DnsSecundario by remember { mutableStateOf("") }
@@ -56,9 +61,9 @@ fun FormularioEquipo(
     var NombreUsuarioPC by remember { mutableStateOf("") }
     var Dominio by remember { mutableStateOf("") }
 
-    var expanded by remember { mutableStateOf(false) }
+    var expandedOption by remember { mutableStateOf(false) }
     val options = listOf("255.255.255.0", "255.255.254.0", "255.255.252.0")
-    var selectedOption by remember { mutableStateOf(options[0]) }
+    var MascaraRed by remember { mutableStateOf(options[0]) }
 
 
     var showDialog by remember { mutableStateOf(false) }
@@ -82,26 +87,29 @@ fun FormularioEquipo(
             modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
+        Text(text = "Mascara de Red")
         ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
+            expanded = expandedOption,
+            onExpandedChange = { expandedOption = !expandedOption }
         ) {
             TextField(
                 modifier = Modifier
                     .menuAnchor()
                     .fillMaxWidth(),
-                value = selectedOption,
+                value = MascaraRed,
                 onValueChange = {},
                 readOnly = true,
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) }
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedOption) }
             )
-            ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            ExposedDropdownMenu(
+                expanded = expandedOption,
+                onDismissRequest = { expandedOption = false }) {
                 options.forEachIndexed { index, text ->
                     DropdownMenuItem(
                         text = { Text(text = text) },
                         onClick = {
-                            selectedOption = options[index]
-                            expanded = false
+                            MascaraRed = options[index]
+                            expandedOption = false
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                         modifier = Modifier.fillMaxWidth()
@@ -205,7 +213,13 @@ fun FormularioEquipo(
                                 showSnackbar = false // Ocultar el Snackbar
                                 val equipoId = response.body()?.IDEquipo.toString()
                                 // La petición fue exitosa
-                                navController.navigate("software/$equipoId")
+                                navController.navigate("software/$equipoId") {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
                             } else {
                                 Log.e(
                                     "API_ERROR",

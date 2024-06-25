@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bodegas.data.repository.DataRepository
 import com.example.bodegas.data.repository.IpRepository
 import com.example.bodegas.ui.components.ActualizarContrasena
+import com.example.bodegas.ui.components.AsignarUbicacion
 import com.example.bodegas.ui.components.BuscarEquipo
 import com.example.bodegas.ui.components.BuscarImpresora
 import com.example.bodegas.ui.components.BuscarIpDisponible
@@ -67,11 +68,12 @@ fun AppNavigation() {
         }
         composable("impresoraSinIp/{hardware}") { backStackEntry ->
             val hardware = backStackEntry.arguments?.getString("hardware")
-            FormularioSinIp(navController,hardware)
+            FormularioSinIp(navController, hardware)
         }
         composable("usuario") { FormularioUsuario(navController) }
         composable("buscar") { BuscarEquipo(navController, repository) }
         composable("buscarip") { BuscarIpDisponible(navController, repositoryIp) }
+        composable("asignarUbicacion") { AsignarUbicacion(navController = navController) }
     }
 }
 

@@ -37,15 +37,6 @@ fun HomePage(navController: NavHostController) {
             Text(text = "Registro equipo", color = Color.White)
         }
         Button(
-            onClick = { navController.navigate("usuario") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            elevation = ButtonDefaults.elevatedButtonElevation()
-        ) {
-            Text(text = "Registro usuario", color = Color.White)
-        }
-        Button(
             onClick = { navController.navigate("buscar") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,7 +45,6 @@ fun HomePage(navController: NavHostController) {
         ) {
             Text(text = "Buscar equipo", color = Color.White)
         }
-
         Button(
             onClick = {
                 Global.token = null // Borra el token global
@@ -67,5 +57,6 @@ fun HomePage(navController: NavHostController) {
         ) {
             Text(text = "Cerrar sesion", color = Color.White)
         }
+
     }
 }

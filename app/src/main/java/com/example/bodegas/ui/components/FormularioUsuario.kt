@@ -153,6 +153,7 @@ fun FormularioUsuario(navController: NavHostController) {
                     val response = repositoryIp.asignarEquipo(asignaciones)
                     if (response.isSuccessful) {
                         Log.d("FormularioUsuario", "Equipo asignado correctamente")
+                        navController.navigate("asignarUbicacion")
                     } else {
                         Log.e(
                             "FormularioUsuario",

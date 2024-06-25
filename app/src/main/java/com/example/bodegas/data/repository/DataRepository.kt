@@ -6,6 +6,7 @@ import com.example.bodegas.data.api.ApiModule
 import com.example.bodegas.data.models.ActializarContrasena
 import com.example.bodegas.data.models.AsignacionesEquipo
 import com.example.bodegas.data.models.AsignarImpresora
+import com.example.bodegas.data.models.AsignarUbicacionId
 import com.example.bodegas.data.models.Equipo
 import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
@@ -57,7 +58,7 @@ class DataRepository {
         return ApiModule.apiService.buscarImpresoraSerial(serial)
     }
 
-    suspend fun getUbicacionesPorPiso(piso: Int): Response<List<UbicacionResponse>> {
+    suspend fun getUbicacionesPorPiso(piso: String): Response<List<UbicacionResponse>> {
         return ApiModule.apiService.getUbicacionesPorPiso(piso)
     }
 
@@ -93,4 +94,10 @@ class IpRepository {
         return ApiIpModule.apiIpService.asignarEquipo(asignarEquipo)
     }
 
+    suspend fun asignarUbicacion(
+        IdEquipo: String,
+        asignarUbicacion: AsignarUbicacionId,
+    ): Response<Void> {
+        return ApiIpModule.apiIpService.asignarUbicacion(IdEquipo, asignarUbicacion)
+    }
 }
