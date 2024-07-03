@@ -8,8 +8,10 @@ import com.example.bodegas.data.models.AsignacionesEquipo
 import com.example.bodegas.data.models.AsignarImpresora
 import com.example.bodegas.data.models.AsignarUbicacionId
 import com.example.bodegas.data.models.Equipo
+import com.example.bodegas.data.models.EquipoActualizado
 import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
+import com.example.bodegas.data.models.EquipoResponseId
 import com.example.bodegas.data.models.Hardware
 import com.example.bodegas.data.models.HardwareResponse
 import com.example.bodegas.data.models.ImpersoraIdIp
@@ -60,6 +62,14 @@ class DataRepository {
 
     suspend fun getUbicacionesPorPiso(piso: String): Response<List<UbicacionResponse>> {
         return ApiModule.apiService.getUbicacionesPorPiso(piso)
+    }
+
+    suspend fun getEquipoPorId(id: Int): Response<EquipoResponseId> {
+        return ApiModule.apiService.getEquipoPorId(id)
+    }
+
+    suspend fun actualizarEquipo(id: Int, equipo: EquipoActualizado): Response<Void> {
+        return ApiModule.apiService.editarEquipo(id, equipo)
     }
 
 }

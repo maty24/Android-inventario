@@ -23,6 +23,7 @@ fun BuscarEquipo(navController: NavHostController, repository: DataRepository) {
     var equipoId by remember { mutableStateOf("") }
     var faltaEnComponenteHardware by remember { mutableStateOf(false) }
     var faltaEnSoftwareInstalado by remember { mutableStateOf(false) }
+    var editarEquipo by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.padding(16.dp)) {
@@ -44,6 +45,7 @@ fun BuscarEquipo(navController: NavHostController, repository: DataRepository) {
                             equipoId = equipo?.IDEquipo.toString()
                             faltaEnComponenteHardware = equipo?.FaltaEnComponenteHardware ?: false
                             faltaEnSoftwareInstalado = equipo?.FaltaEnSoftwareInstalado ?: false
+                            editarEquipo = true
                         } else {
                             // Manejar el caso en que la respuesta no sea exitosa
                         }
@@ -77,6 +79,14 @@ fun BuscarEquipo(navController: NavHostController, repository: DataRepository) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Registro Software")
+        }
+        if (editarEquipo) {
+            Button(
+                onClick = { navController.navigate("editarEquipo/$equipoId") },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Editar Equipo")
+            }
         }
     }
 }

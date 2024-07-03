@@ -26,3 +26,33 @@ data class EquipoResponse(
     val FaltaEnSoftwareInstalado: Boolean,
     val FaltaUbicacion: Boolean,
 )
+
+data class EquipoResponseId(
+    val IDEquipo: Int,
+    val IDIpDisponible: Int,
+    val MascaraRed: String,
+    val PuertaEnlace: String,
+    val DnsPrimario: String,
+    val DnsSecundario: String,
+    val MacAddress: String,
+    val MiniSwitch: String,
+    val IpSwitch: String,
+    val PuertoSwitch: String,
+    val NombreEquipo: String,
+    val NombreUsuarioPC: String,
+    val Dominio: String
+)
+
+data class EquipoActualizado(
+    val MascaraRed: String,
+    val PuertaEnlace: String,
+    val DnsPrimario: String,
+    val DnsSecundario: String,
+    val MacAddress: String,
+    val MiniSwitch: String,
+    val IpSwitch: String,
+    val PuertoSwitch: String,
+    val NombreEquipo: String,
+    val NombreUsuarioPC: String,
+    val Dominio: String
+)

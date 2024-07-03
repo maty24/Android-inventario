@@ -5,8 +5,10 @@ import com.example.bodegas.data.models.AsignacionesEquipo
 import com.example.bodegas.data.models.AsignarImpresora
 import com.example.bodegas.data.models.AsignarUbicacionId
 import com.example.bodegas.data.models.Equipo
+import com.example.bodegas.data.models.EquipoActualizado
 import com.example.bodegas.data.models.EquipoResponse
 import com.example.bodegas.data.models.EquipoResponseCreate
+import com.example.bodegas.data.models.EquipoResponseId
 import com.example.bodegas.data.models.Hardware
 import com.example.bodegas.data.models.HardwareResponse
 import com.example.bodegas.data.models.ImpersoraIdIp
@@ -54,6 +56,12 @@ interface ApiService {
 
     @GET("ubicaciones/piso/{piso}")
     suspend fun getUbicacionesPorPiso(@Path("piso") piso: String): Response<List<UbicacionResponse>>
+
+    @GET("equipos/{id}")
+    suspend fun getEquipoPorId(@Path("id") id: Int): Response<EquipoResponseId>
+
+    @PATCH("equipos/{id}")
+    suspend fun editarEquipo(@Path("id") id: Int, @Body equipo: EquipoActualizado): Response<Void>
 }
 
 interface ApiLoginService {

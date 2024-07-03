@@ -11,6 +11,7 @@ import com.example.bodegas.ui.components.AsignarUbicacion
 import com.example.bodegas.ui.components.BuscarEquipo
 import com.example.bodegas.ui.components.BuscarImpresora
 import com.example.bodegas.ui.components.BuscarIpDisponible
+import com.example.bodegas.ui.components.Equipo.EditEquipo
 import com.example.bodegas.ui.components.FormularioEquipo
 import com.example.bodegas.ui.components.FormularioHardware
 import com.example.bodegas.ui.components.FormularioSoftware
@@ -74,6 +75,13 @@ fun AppNavigation() {
         composable("buscar") { BuscarEquipo(navController, repository) }
         composable("buscarip") { BuscarIpDisponible(navController, repositoryIp) }
         composable("asignarUbicacion") { AsignarUbicacion(navController = navController) }
+
+        composable("editarEquipo/{idEquipo}") { backStackEntry ->
+            val idEquipo = backStackEntry.arguments?.getString("idEquipo")
+            if (idEquipo != null) {
+                EditEquipo(idEquipo = idEquipo)
+            }
+        }
     }
 }
 
