@@ -22,6 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.bodegas.data.models.AsignarImpresora
 import com.example.bodegas.data.models.ImpersoraIdIp
@@ -170,7 +171,13 @@ fun FormRegistroIpImpresora(navController: NavHostController, hardware: String?)
                     try {
                         if (responseAsignacion.isSuccessful) {
                             activarBtnAsignar = false
-                            navController.navigate("usuario")
+                            navController.navigate("usuario") {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         } else {
 
                         }

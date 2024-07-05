@@ -1,5 +1,6 @@
 package com.example.bodegas.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,8 +24,13 @@ fun BuscarEquipo(navController: NavHostController, repository: DataRepository) {
     var equipoId by remember { mutableStateOf("") }
     var faltaEnComponenteHardware by remember { mutableStateOf(false) }
     var faltaEnSoftwareInstalado by remember { mutableStateOf(false) }
-    var editarEquipo by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
+
+
+    // Declaración de las variables para habilitar los botones
+    val habilitarEditarEquipo = faltaEnComponenteHardware && faltaEnSoftwareInstalado
+    val habilitarRegistroHardware = faltaEnComponenteHardware && !faltaEnSoftwareInstalado
+    val habilitarRegistroSoftware = !faltaEnComponenteHardware && faltaEnSoftwareInstalado
 
     Column(modifier = Modifier.padding(16.dp)) {
         TextField(
@@ -37,6 +43,9 @@ fun BuscarEquipo(navController: NavHostController, repository: DataRepository) {
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
+                Log.d("habilitarEditarEquipo", habilitarEditarEquipo.toString())
+                Log.d("habilitarRegistroHardware", habilitarRegistroHardware.toString())
+                Log.d("habilitarRegistroSoftware", habilitarRegistroSoftware.toString())
                 coroutineScope.launch {
                     try {
                         val response = repository.getEquipoPorMac(macAddress)
@@ -45,7 +54,7 @@ fun BuscarEquipo(navController: NavHostController, repository: DataRepository) {
                             equipoId = equipo?.IDEquipo.toString()
                             faltaEnComponenteHardware = equipo?.FaltaEnComponenteHardware ?: false
                             faltaEnSoftwareInstalado = equipo?.FaltaEnSoftwareInstalado ?: false
-                            editarEquipo = true
+
                         } else {
                             // Manejar el caso en que la respuesta no sea exitosa
                         }
@@ -68,25 +77,26 @@ fun BuscarEquipo(navController: NavHostController, repository: DataRepository) {
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = { navController.navigate("hardware/$equipoId") },
-            enabled = faltaEnComponenteHardware,
+            enabled = habilitarRegistroHardware,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Registro Hardware")
+            Text("Retomar desde hardware")
         }
         Button(
             onClick = { navController.navigate("software/$equipoId") },
-            enabled = faltaEnSoftwareInstalado,
+            enabled = habilitarRegistroSoftware,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Registro Software")
+            Text("Retomar desde software")
         }
-        if (editarEquipo) {
-            Button(
-                onClick = { navController.navigate("editarEquipo/$equipoId") },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Editar Equipo")
-            }
+        Button(
+            onClick = {
+                navController.navigate("editarEquipo/$equipoId")
+            },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = habilitarEditarEquipo
+        ) {
+            Text("Retomar desde equipo")
         }
     }
 }

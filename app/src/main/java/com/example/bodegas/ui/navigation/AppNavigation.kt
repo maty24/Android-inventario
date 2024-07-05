@@ -79,7 +79,7 @@ fun AppNavigation() {
         composable("editarEquipo/{idEquipo}") { backStackEntry ->
             val idEquipo = backStackEntry.arguments?.getString("idEquipo")
             if (idEquipo != null) {
-                EditEquipo(idEquipo = idEquipo)
+                EditEquipo(idEquipo = idEquipo,navController = navController)
             }
         }
     }

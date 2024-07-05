@@ -1,6 +1,7 @@
 package com.example.bodegas.ui.components
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.bodegas.data.models.AsignacionesEquipo
 import com.example.bodegas.data.models.Usuario
@@ -33,6 +35,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun FormularioUsuario(navController: NavHostController) {
+
+    BackHandler(enabled = true) {}
 
     var rut by remember { mutableStateOf("") }
     var dv by remember { mutableStateOf("") }
@@ -153,7 +157,13 @@ fun FormularioUsuario(navController: NavHostController) {
                     val response = repositoryIp.asignarEquipo(asignaciones)
                     if (response.isSuccessful) {
                         Log.d("FormularioUsuario", "Equipo asignado correctamente")
-                        navController.navigate("asignarUbicacion")
+                        navController.navigate("asignarUbicacion") {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     } else {
                         Log.e(
                             "FormularioUsuario",

@@ -1,6 +1,7 @@
 package com.example.bodegas.ui.components
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.bodegas.data.models.AsignarUbicacionId
 import com.example.bodegas.data.models.UbicacionResponse
@@ -42,6 +44,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AsignarUbicacion(navController: NavHostController) {
+    BackHandler(enabled = true) {}
     var piso by remember { mutableStateOf("") }
     var ubicaciones by remember { mutableStateOf(listOf<UbicacionResponse>()) }
     var selectedService by remember { mutableStateOf<UbicacionResponse?>(null) } // Store the whole object
@@ -155,7 +158,13 @@ fun AsignarUbicacion(navController: NavHostController) {
                         )
                         if (response.isSuccessful) {
                             Log.d("AsignarUbicacion", "Asignacion exitosa")
-                            navController.navigate("home")
+                            navController.navigate("home") {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
 
                     } catch (e: Exception) {
